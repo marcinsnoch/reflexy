@@ -2,8 +2,7 @@
 /**
  * Plugin Name: Typex Reflexy.
  * Description: Wtyczka do publikacji Reflexów.
- * Plugin URI: http://cd2.studio
- * Version: 0.1
+  * Version: 0.1
  * Author: Marcin Snoch
  * Author URI: http://msnoch.vxm.pl
  */
