@@ -14,8 +14,8 @@ function reflexy_post_type()
         'reflexy',
         [
             'labels' => [
-                'name' => __('Reflexy'),
-                'singular_name' => __('Reflex'),
+                'name' => __('REFLEXY'),
+                'singular_name' => __('REFLEX'),
             ],
             'public' => true,
             'show_in_rest' => true,
@@ -138,3 +138,12 @@ function my_shortcode_function()
     return $output;
 }
 add_shortcode('show_reflexy', 'my_shortcode_function');
+
+function custom_plugin_title($title) {
+    if (is_archive() && 'reflexy' == get_post_type()) {
+        $custom_title = 'REFLEXY';
+        $title = $custom_title . ' &#8211; ' . get_bloginfo('name');
+    }
+    return $title;
+}
+add_filter('pre_get_document_title', 'custom_plugin_title');
