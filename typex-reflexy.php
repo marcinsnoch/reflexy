@@ -115,6 +115,7 @@ function my_shortcode_function()
 //    wp_reset_postdata();
     
     // Ustawienia shortcode
+    $atts = '';
     $atts = shortcode_atts( array(
         'posts_per_page' => '10', // ilość wpisów na stronie
     ), $atts );
