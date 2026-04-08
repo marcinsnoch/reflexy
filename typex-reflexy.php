@@ -107,6 +107,67 @@ function add_plugin_styles()
 
 add_action('wp_enqueue_scripts', 'add_plugin_styles');
 
+// Add admin menu
+function reflexy_add_admin_menu() {
+    add_options_page(
+        'Ustawienia Reflexy',
+        'Reflexy',
+        'manage_options',
+        'reflexy-settings',
+        'reflexy_settings_page'
+    );
+}
+add_action('admin_menu', 'reflexy_add_admin_menu');
+
+// Register settings
+function reflexy_register_settings() {
+    register_setting('reflexy_settings', 'reflexy_author_name');
+    register_setting('reflexy_settings', 'reflexy_author_email');
+    register_setting('reflexy_settings', 'reflexy_author_url');
+    register_setting('reflexy_settings', 'reflexy_slice_type');
+}
+add_action('admin_init', 'reflexy_register_settings');
+
+// Settings page callback
+function reflexy_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php _e('Ustawienia Reflexy', 'typex-reflexy'); ?></h1>
+        <form method="post" action="options.php">
+            <?php
+            settings_fields('reflexy_settings');
+            do_settings_sections('reflexy_settings');
+            ?>
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row"><?php _e('Nazwa autora', 'typex-reflexy'); ?></th>
+                    <td><input type="text" name="reflexy_author_name" value="<?php echo esc_attr(get_option('reflexy_author_name', 'Marcin Snoch')); ?>" /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e('Email autora', 'typex-reflexy'); ?></th>
+                    <td><input type="email" name="reflexy_author_email" value="<?php echo esc_attr(get_option('reflexy_author_email', 'msnoch@vxm.pl')); ?>" /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e('URL autora', 'typex-reflexy'); ?></th>
+                    <td><input type="url" name="reflexy_author_url" value="<?php echo esc_attr(get_option('reflexy_author_url', 'http://msnoch.vxm.pl')); ?>" /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e('Typ sekcji', 'typex-reflexy'); ?></th>
+                    <td>
+                        <select name="reflexy_slice_type">
+                            <option value="type1" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type1'); ?>>Type 1</option>
+                            <option value="type2" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type2'); ?>>Type 2</option>
+                            <option value="type3" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type3'); ?>>Type 3</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
+
 function my_shortcode_function($atts)
 {
     // Ustawienia shortcode

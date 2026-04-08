@@ -1,4 +1,4 @@
-<div id="reflexy-shortcode" class="slice type2 reflexy">
+<div id="reflexy-shortcode" class="slice <?php echo esc_attr(get_option('reflexy_slice_type', 'type2')); ?> reflexy">
     <article id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>
         <a href="./reflexy/"><h2 class="slice-title"><?php echo esc_html('REFLEXY'); ?></h2></a>
         <div class="card-deck">
