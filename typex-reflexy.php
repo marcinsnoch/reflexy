@@ -70,15 +70,16 @@ register_uninstall_hook(__FILE__, 'reflexy_uninstall');
 
 function custom_template_include($template)
 {
-    if (is_archive() && 'reflexy' == get_post_type()) {
-        $new_template = dirname(__FILE__) . '/templates/archive-reflexy.php';
+    global $wp_query;
+    if (is_archive() && isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'reflexy') {
+        $new_template = dirname(__FILE__).'/templates/archive-reflexy.php';
         if (file_exists($new_template)) {
             return $new_template;
         }
     }
 
     if (is_singular('reflexy')) {
-        $new_template = dirname(__FILE__) . '/templates/single-reflexy.php';
+        $new_template = dirname(__FILE__).'/templates/single-reflexy.php';
         if (file_exists($new_template)) {
             return $new_template;
         }
