@@ -97,7 +97,7 @@ function custom_posts_per_page($query)
 
     //    if ( is_home() ) {
     //    }
-    $query->set('posts_per_page', 10);
+    $query->set('posts_per_page', intval(get_option('reflexy_archive_posts_per_page', 10)));
 }
 add_action('pre_get_posts', 'custom_posts_per_page');
 
@@ -146,8 +146,24 @@ function reflexy_register_settings() {
         'reflexy_front_page'
     );
 
+    add_settings_section(
+        'reflexy_page',
+        'Page Reflexy',
+        '__return_empty_string',
+        'reflexy_settings'
+    );
+
+    add_settings_field(
+        'reflexy_archive_posts_per_page',
+        'Liczba postów na stronie',
+        'reflexy_archive_posts_per_page_callback',
+        'reflexy_settings',
+        'reflexy_page'
+    );
+
     register_setting('reflexy_settings', 'reflexy_slice_type');
     register_setting('reflexy_settings', 'reflexy_posts_per_page');
+    register_setting('reflexy_settings', 'reflexy_archive_posts_per_page');
 }
 add_action('admin_init', 'reflexy_register_settings');
 
@@ -162,6 +178,12 @@ function reflexy_posts_per_page_callback() {
     $value = get_option('reflexy_posts_per_page', '10');
     echo '<input type="number" name="reflexy_posts_per_page" value="' . esc_attr($value) . '" min="1" max="50" />';
     echo '<p class="description">Liczba Reflexów wyświetlanych przez shortcode [show_reflexy].</p>';
+}
+
+function reflexy_archive_posts_per_page_callback() {
+    $value = get_option('reflexy_archive_posts_per_page', '10');
+    echo '<input type="number" name="reflexy_archive_posts_per_page" value="' . esc_attr($value) . '" min="1" max="100" />';
+    echo '<p class="description">Liczba Reflexów wyświetlanych na stronie archiwum /reflexy/.</p>';
 }
 
 // Add settings link on plugins page
