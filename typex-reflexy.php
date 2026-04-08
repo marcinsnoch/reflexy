@@ -194,6 +194,94 @@ function reflexy_plugin_action_links($links) {
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'reflexy_plugin_action_links');
 
+// Auto-update functionality
+function reflexy_check_for_updates($transient) {
+    if (empty($transient->checked)) {
+        return $transient;
+    }
+
+    $plugin_slug = plugin_basename(__FILE__);
+    $current_version = $transient->checked[$plugin_slug] ?? '1.0';
+
+    // Check GitHub API for latest release
+    $response = wp_remote_get('https://api.github.com/repos/marcinsnoch/reflexy/releases/latest');
+    if (is_wp_error($response)) {
+        return $transient;
+    }
+
+    $release = json_decode(wp_remote_retrieve_body($response), true);
+    if (!$release || !isset($release['tag_name'])) {
+        return $transient;
+    }
+
+    $latest_version = ltrim($release['tag_name'], 'v');
+    if (version_compare($latest_version, $current_version, '>')) {
+        $transient->response[$plugin_slug] = (object) [
+            'slug' => 'reflexy',
+            'new_version' => $latest_version,
+            'url' => 'https://github.com/marcinsnoch/reflexy',
+            'package' => $release['zipball_url'] ?? $release['zipball_url'],
+            'tested' => '6.9',
+            'requires' => '5.0',
+            'requires_php' => '7.4'
+        ];
+    }
+
+    return $transient;
+}
+add_filter('pre_set_site_transient_update_plugins', 'reflexy_check_for_updates');
+
+function reflexy_plugin_info($false, $action, $response) {
+    if ($action !== 'plugin_information' || $response->slug !== 'reflexy') {
+        return $false;
+    }
+
+    $response = wp_remote_get('https://api.github.com/repos/marcinsnoch/reflexy/releases/latest');
+    if (is_wp_error($response)) {
+        return $false;
+    }
+
+    $release = json_decode(wp_remote_retrieve_body($response), true);
+    if (!$release) {
+        return $false;
+    }
+
+    return (object) [
+        'name' => 'Reflexy',
+        'slug' => 'reflexy',
+        'version' => ltrim($release['tag_name'] ?? '1.0', 'v'),
+        'author' => 'Marcin Snoch',
+        'author_profile' => 'https://gravatar.com/marcinmsxtech',
+        'contributors' => ['marcinsnoch' => 'https://github.com/marcinsnoch'],
+        'requires' => '5.0',
+        'tested' => '6.9',
+        'requires_php' => '7.4',
+        'compatibility' => [],
+        'rating' => 100,
+        'ratings' => ['5' => 1],
+        'num_ratings' => 1,
+        'support_url' => 'https://github.com/marcinsnoch/reflexy/issues',
+        'homepage' => 'https://github.com/marcinsnoch/reflexy',
+        'download_link' => $release['zipball_url'] ?? '',
+        'sections' => [
+            'description' => 'Wtyczka WordPress do publikowania Reflexów (refleksji, przemyśleń) dla strony Typex.info.',
+            'changelog' => $release['body'] ?? 'Zobacz pełne informacje o zmianach na GitHub.'
+        ],
+        'banners' => [
+            'low' => 'https://raw.githubusercontent.com/marcinsnoch/reflexy/main/banner-772x250.png',
+            'high' => 'https://raw.githubusercontent.com/marcinsnoch/reflexy/main/banner-1544x500.png'
+        ],
+        'icons' => [
+            '1x' => 'https://raw.githubusercontent.com/marcinsnoch/reflexy/main/icon-128x128.png',
+            '2x' => 'https://raw.githubusercontent.com/marcinsnoch/reflexy/main/icon-256x256.png'
+        ],
+        'last_updated' => $release['published_at'] ?? current_time('mysql'),
+        'added' => '2024-01-01',
+        'active_installs' => 10
+    ];
+}
+add_filter('plugins_api', 'reflexy_plugin_info', 20, 3);
+
 // Settings page callback
 function reflexy_settings_page() {
     ?>
