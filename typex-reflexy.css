@@ -1,3 +1,178 @@
+/* Reflexy Plugin Styles - Dedicated CSS */
+
+/* Layout adjustments for Reflexy sections */
+.slice.type2.reflexy .card p {
+    border-radius: 0;
+    margin-right: 0;
+    position: relative;
+    left: 0;
+    margin-top: -2px;
+    background-color: #a2d8fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styles from theme Neori for Reflexy */
+.slice.type2.reflexy figure {
+    margin: 0 0 -7px 0;
+}
+
+.slice.type2.reflexy .card .card-img-top {
+    border-radius: 0;
+}
+
+.slice.type2.reflexy .card .card-img-top:hover,
+.slice.type2.reflexy .card .card-img-top:focus {
+    top: 0;
+}
+
+/* Single Reflexy post styles */
+.single-reflexy .combined .menu a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    line-height: 1.1em;
+}
+
+.single-reflexy .wp-block-latest-posts li a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.single-reflexy .wp-block-group h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #ff0f0f;
+    text-shadow: rgb(255, 255, 255) 1px 1px 0px, rgb(170, 170, 170) 2px 2px 0px;
+}
+
+.single-reflexy .author .author-name a {
+    color: #42a0ff;
+}
+
+.single-reflexy .hentry p {
+    color: #000000;
+    margin-bottom: 0px;
+    border-radius: 0;
+    margin-right: 0px;
+    position: relative;
+    left: 0px;
+    margin-top: -2px;
+    background-color: #a2d8fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+.single-reflexy .wp-block-search .wp-block-search__inside-wrapper .wp-element-button {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.single-reflexy #block-2 .wp-block-search label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.single-reflexy .general-info .date-n-time .date {
+    font-weight: 500;
+    color: #606060;
+}
+
+.single-reflexy .general-info .date-n-time .min-read {
+    font-weight: 500;
+    color: #606060;
+}
+
+.single-reflexy #menu-typex-menu .menu-item a {
+    font-weight: 600 !important;
+}
+
+.single-reflexy #page .container .row .mx-auto .hentry .entry-content p {
+    color: #000000;
+    margin-bottom: 0px;
+    border-radius: 0;
+    margin-right: 0px;
+    position: relative;
+    left: 0px;
+    margin-top: -2px;
+    background-color: #a2d8fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+.single-reflexy #page .container .row > .mx-auto {
+    margin-top: -2px;
+}
+
+.single-reflexy #page .ws-sr h1 {
+    color: #ffee0a !important;
+    font-weight: 700 !important;
+    font-size: 20px !important;
+    font-family: 'Poppins', sans-serif;
+}
+
+.single-reflexy .row .mx-auto .wp-post-image {
+    margin-bottom: 20px;
+}
+
+/* Card links */
+/* Two-column layout for cards */
+.reflexy-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.reflexy-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    flex: 0 0 calc(50% - 30px);
+    margin-right: 15px;
+    margin-left: 15px;
+    margin-bottom: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 767px) {
+    .reflexy-card-link {
+        flex: 0 0 100%;
+    }
+}
+
+.reflexy-card-link:hover {
+    opacity: 0.9;
+}
+
+.reflexy-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    overflow: hidden;
+}
+
+.reflexy-card .card-img-top {
+    width: 100%;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+}
+
+.reflexy-card p {
+    border-radius: 0;
+    margin-right: 0;
+    position: relative;
+    left: 0;
+    margin-top: -2px;
+    background-color: #a2d8fa;
+    font-family: 'Poppins', sans-serif;
+    padding: 4px;
+    color: #000000;
+    word-spacing: -1.5px;
+}
+
+/* Footer additional text */
 footer.footer .additional-text {
     font-size: 15px;
     line-height: 1.2;
