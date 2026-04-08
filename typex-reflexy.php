@@ -122,9 +122,54 @@ add_action('admin_menu', 'reflexy_add_admin_menu');
 
 // Register settings
 function reflexy_register_settings() {
+    add_settings_section(
+        'reflexy_front_page',
+        'Front Page Reflex',
+        '__return_empty_string',
+        'reflexy_settings'
+    );
+
+    add_settings_field(
+        'reflexy_slice_type',
+        'Klasa',
+        'reflexy_slice_type_callback',
+        'reflexy_settings',
+        'reflexy_front_page'
+    );
+
+    add_settings_field(
+        'reflexy_posts_per_page',
+        'Liczba postów',
+        'reflexy_posts_per_page_callback',
+        'reflexy_settings',
+        'reflexy_front_page'
+    );
+
     register_setting('reflexy_settings', 'reflexy_slice_type');
+    register_setting('reflexy_settings', 'reflexy_posts_per_page');
 }
 add_action('admin_init', 'reflexy_register_settings');
+
+// Settings field callbacks
+function reflexy_slice_type_callback() {
+    $value = get_option('reflexy_slice_type', 'slice type2');
+    echo '<input type="text" name="reflexy_slice_type" value="' . esc_attr($value) . '" placeholder="slice type2" />';
+    echo '<p class="description">Wpisz klasę CSS dla sekcji Reflexy na stronie głównej.</p>';
+}
+
+function reflexy_posts_per_page_callback() {
+    $value = get_option('reflexy_posts_per_page', '10');
+    echo '<input type="number" name="reflexy_posts_per_page" value="' . esc_attr($value) . '" min="1" max="50" />';
+    echo '<p class="description">Liczba Reflexów wyświetlanych przez shortcode [show_reflexy].</p>';
+}
+
+// Add settings link on plugins page
+function reflexy_plugin_action_links($links) {
+    $settings_link = '<a href="' . admin_url('edit.php?post_type=reflexy&page=reflexy-settings') . '">' . __('Ustawienia', 'typex-reflexy') . '</a>';
+    array_unshift($links, $settings_link);
+    return $links;
+}
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'reflexy_plugin_action_links');
 
 // Settings page callback
 function reflexy_settings_page() {
@@ -132,20 +177,12 @@ function reflexy_settings_page() {
     <div class="wrap">
         <h1><?php _e('Ustawienia Reflexy', 'typex-reflexy'); ?></h1>
         <p><strong>Dane autora:</strong> Marcin Snoch | <a href="https://gravatar.com/marcinmsxtech" target="_blank">https://gravatar.com/marcinmsxtech</a></p>
+        <p><strong>Instrukcja:</strong> Aby wyświetlić Reflexy na stronie, użyj shortcode: <code>[show_reflexy]</code></p>
         <form method="post" action="options.php">
             <?php
             settings_fields('reflexy_settings');
             do_settings_sections('reflexy_settings');
             ?>
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row"><?php _e('Typ sekcji', 'typex-reflexy'); ?></th>
-                    <td>
-                        <input type="text" name="reflexy_slice_type" value="<?php echo esc_attr(get_option('reflexy_slice_type', 'slice type2')); ?>" placeholder="slice type2" />
-                        <p class="description">Wpisz typ wizualny sekcji Reflexy na stronie głównej (np. slice type2).</p>
-                    </td>
-                </tr>
-            </table>
             <?php submit_button(); ?>
         </form>
     </div>
@@ -156,7 +193,7 @@ function my_shortcode_function($atts)
 {
     // Ustawienia shortcode
     $atts = shortcode_atts([
-        'posts_per_page' => '10', // ilość wpisów na stronie
+        'posts_per_page' => get_option('reflexy_posts_per_page', '10'), // ilość wpisów na stronie
     ], $atts);
 
     // Query do pobrania wpisów
