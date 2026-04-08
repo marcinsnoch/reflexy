@@ -131,7 +131,7 @@ function reflexy_settings_page() {
     ?>
     <div class="wrap">
         <h1><?php _e('Ustawienia Reflexy', 'typex-reflexy'); ?></h1>
-        <p><strong>Dane autora:</strong> Marcin Snoch | msnoch@vxm.pl | http://msnoch.vxm.pl</p>
+        <p><strong>Dane autora:</strong> Marcin Snoch | <a href="https://gravatar.com/marcinmsxtech" target="_blank">https://gravatar.com/marcinmsxtech</a></p>
         <form method="post" action="options.php">
             <?php
             settings_fields('reflexy_settings');
@@ -141,8 +141,8 @@ function reflexy_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php _e('Typ sekcji', 'typex-reflexy'); ?></th>
                     <td>
-                        <input type="text" name="reflexy_slice_type" value="<?php echo esc_attr(get_option('reflexy_slice_type', 'type2')); ?>" placeholder="type2" />
-                        <p class="description">Wpisz typ wizualny sekcji Reflexy na stronie głównej (np. type2).</p>
+                        <input type="text" name="reflexy_slice_type" value="<?php echo esc_attr(get_option('reflexy_slice_type', 'slice type2')); ?>" placeholder="slice type2" />
+                        <p class="description">Wpisz typ wizualny sekcji Reflexy na stronie głównej (np. slice type2).</p>
                     </td>
                 </tr>
             </table>
