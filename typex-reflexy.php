@@ -141,12 +141,8 @@ function reflexy_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php _e('Typ sekcji', 'typex-reflexy'); ?></th>
                     <td>
-                        <select name="reflexy_slice_type">
-                            <option value="type1" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type1'); ?>>Type 1</option>
-                            <option value="type2" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type2'); ?>>Type 2</option>
-                            <option value="type3" <?php selected(get_option('reflexy_slice_type', 'type2'), 'type3'); ?>>Type 3</option>
-                        </select>
-                        <p class="description">Wybierz typ wizualny sekcji Reflexy na stronie głównej.</p>
+                        <input type="text" name="reflexy_slice_type" value="<?php echo esc_attr(get_option('reflexy_slice_type', 'type2')); ?>" placeholder="type2" />
+                        <p class="description">Wpisz typ wizualny sekcji Reflexy na stronie głównej (np. type2).</p>
                     </td>
                 </tr>
             </table>

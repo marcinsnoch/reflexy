@@ -1,7 +1,7 @@
 /* Reflexy Plugin Styles - Dedicated CSS */
 
 /* Layout adjustments for Reflexy sections */
-.slice.type2.reflexy .card p {
+.reflexy.type2 .card p {
     border-radius: 0;
     margin-right: 0;
     position: relative;
@@ -12,16 +12,16 @@
 }
 
 /* Styles from theme Neori for Reflexy */
-.slice.type2.reflexy figure {
+.reflexy.type2 figure {
     margin: 0 0 -7px 0;
 }
 
-.slice.type2.reflexy .card .card-img-top {
+.reflexy.type2 .card .card-img-top {
     border-radius: 0;
 }
 
-.slice.type2.reflexy .card .card-img-top:hover,
-.slice.type2.reflexy .card .card-img-top:focus {
+.reflexy.type2 .card .card-img-top:hover,
+.reflexy.type2 .card .card-img-top:focus {
     top: 0;
 }
 
