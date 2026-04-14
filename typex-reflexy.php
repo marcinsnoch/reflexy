@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Typex Reflexy.
  * Description: Wtyczka do publikacji Reflexów.
- * Version: 2.0
+ * Version: 2.1
  * Author: Marcin Snoch
  * Author URI: https://gravatar.com/marcinmsxtech
  */
@@ -28,6 +28,8 @@ function reflexy_post_type()
     );
 }
 
+add_action('init', 'reflexy_post_type');
+
 // Add reflexy categories taxonomy
 function create_reflexy_taxonomy()
 {
@@ -49,8 +51,36 @@ function create_reflexy_taxonomy()
     ]);
 }
 
-add_action('init', 'reflexy_post_type');
 add_action('init', 'create_reflexy_taxonomy', 0);
+
+
+// Dodaj to poniżej w pliku pluginu
+function reflexy_add_to_search_query($query) {
+    // Sprawdzamy, czy to nie panel admina, czy to główne zapytanie i czy to wyszukiwarka
+    if (!is_admin() && $query->is_main_query() && $query->is_search()) {
+
+        // Pobieramy aktualnie ustawione typy postów, aby nie nadpisać innych pluginów
+        $post_types = $query->get('post_type');
+
+        // Jeśli post_type nie jest ustawiony, domyślnie WP szuka w 'post' i 'page'
+        if (empty($post_types)) {
+            $post_types = ['post', 'page'];
+        }
+
+        // Dodajemy Twój typ do tablicy
+        if (is_array($post_types)) {
+            if (!in_array('reflexy', $post_types)) {
+                $post_types[] = 'reflexy';
+            }
+        } else {
+            // Jeśli ktoś wcześniej ustawił post_type jako string, zamieniamy na tablicę
+            $post_types = [$post_types, 'reflexy'];
+        }
+
+        $query->set('post_type', $post_types);
+    }
+}
+add_action('pre_get_posts', 'reflexy_add_to_search_query', 999);
 
 // Activation hook
 function reflexy_activate()

@@ -47,6 +47,12 @@
     color: #42a0ff;
 }
 
+.single-reflexy .hentry h1 {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Poppins, sans-serif;
+}
+
 .single-reflexy .hentry p {
     color: #000000;
     margin-bottom: 0px;
@@ -131,10 +137,6 @@
     .reflexy-card-link {
         flex: 0 0 100%;
     }
-}
-
-.reflexy-card-link:hover {
-    opacity: 0.9;
 }
 
 .reflexy-card {
