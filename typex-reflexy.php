@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Typex Reflexy.
  * Description: Wtyczka do publikacji Reflexów.
- * Version: 2.1
+ * Version: 2.2
  * Author: Marcin Snoch
  * Author URI: https://gravatar.com/marcinmsxtech
  */
@@ -58,6 +58,11 @@ add_action('init', 'create_reflexy_taxonomy', 0);
 function reflexy_add_to_search_query($query) {
     // Sprawdzamy, czy to nie panel admina, czy to główne zapytanie i czy to wyszukiwarka
     if (!is_admin() && $query->is_main_query() && $query->is_search()) {
+
+        // Sprawdzamy, czy Reflexy mają być wyświetlane w wynikach wyszukiwania
+        if (get_option('reflexy_show_in_search', '1') !== '1') {
+            return;
+        }
 
         // Pobieramy aktualnie ustawione typy postów, aby nie nadpisać innych pluginów
         $post_types = $query->get('post_type');
@@ -191,9 +196,18 @@ function reflexy_register_settings() {
         'reflexy_page'
     );
 
+    add_settings_field(
+        'reflexy_show_in_search',
+        'Reflexy w wyszukiwarce',
+        'reflexy_show_in_search_callback',
+        'reflexy_settings',
+        'reflexy_page'
+    );
+
     register_setting('reflexy_settings', 'reflexy_slice_type');
     register_setting('reflexy_settings', 'reflexy_posts_per_page');
     register_setting('reflexy_settings', 'reflexy_archive_posts_per_page');
+    register_setting('reflexy_settings', 'reflexy_show_in_search');
 }
 add_action('admin_init', 'reflexy_register_settings');
 
@@ -214,6 +228,12 @@ function reflexy_archive_posts_per_page_callback() {
     $value = get_option('reflexy_archive_posts_per_page', '10');
     echo '<input type="number" name="reflexy_archive_posts_per_page" value="' . esc_attr($value) . '" min="1" max="100" />';
     echo '<p class="description">Liczba Reflexów wyświetlanych na stronie archiwum /reflexy/.</p>';
+}
+
+function reflexy_show_in_search_callback() {
+    $value = get_option('reflexy_show_in_search', '1');
+    echo '<label><input type="checkbox" name="reflexy_show_in_search" value="1"' . checked($value, '1', false) . ' /> Pokazuj Reflexy w wynikach wyszukiwarki</label>';
+    echo '<p class="description">Jeśli zaznaczone, posty typu Reflexy będą wyświetlane w wynikach wyszukiwania na stronie.</p>';
 }
 
 // Add settings link on plugins page
